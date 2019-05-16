@@ -23,38 +23,65 @@ const data = {
     }
   };
 
-const prize = document.getElementById('prizes');
+// Variables
+const prizes = document.getElementById('prizes');
 const customer = document.getElementById('customers');
-const customerPrize = document.getElementById('customerPrizeData');
 
-const prizeNameArr = [];
-const customerNames = [];
-const customerPrizeData = [];
+// Functions
+function displayPrizeNames(){
+    let prizeNames = Object.keys(data.prizes);
+    let toStringLit = prizeNames.map(item => `<div>${item}</div>`);
+    return toStringLit.join(' ');
+}
 
-function displayPrizeData(){
-    for(let key in data.prizes){
-        prizeNameArr.push(`<div>${key} ${data.prizes[key]}</div>`);
-    }
-    return prizeNameArr.join(' ');
+function displayPrizeCounts(){
+    let prizeCounts = Object.values(data.prizes);
+    let toStringLit = prizeCounts.map(item => `<div>${item}</div>`);
+    return toStringLit.join(' ');
 }
 
 function displayCustomerNames(){
-   for(let key in data.customers){
-    customerNames.push(key);
-    customerPrizeData.push(data.customers[key]);
-   }
-   console.log(customerNames, customerPrizeData);
-   let toStringLit = customerNames.map(item => `${item}`);
-   return toStringLit.join(' ');
+    let customerNames = Object.keys(data.customers);
+    let toStringLit = customerNames.map(item => `<div>${item}</div>`);
+    return toStringLit.join(' ');
 }
 
-// function displayCustomerData(){
-//     let toStringLit = customerPrizeData.map(item => )
-// }
+function displayCustomerPrizeInfo(){
+    let customerPrizeInfo = Object.values(data.customers);
+    let customerPrizeNames = [];
+    let customerPrizeCounts = [];
+    let namesAndCounts = [];
+    let divIds = [];
 
-prize.innerHTML = `${displayPrizeData()}`
-customer.innerHTML = `${displayCustomerNames()}`
-customerPrizeInfo.innerHTML = `${displayCustomerData()}`
+    customerPrizeInfo.forEach(item => customerPrizeNames.push(Object.keys(item)));
+    customerPrizeInfo.forEach(item => customerPrizeCounts.push(Object.values(item)));
+    for(let i=0;i<customerPrizeNames.length;i++){
+            namesAndCounts.push([]);
+            divIds.push([]);
+        for(let j=0;j<customerPrizeNames[i].length; j++){
+            divIds[i].push(`${customerPrizeNames[i][j]}`)
+            namesAndCounts[i].push(`<button>+</button>${customerPrizeNames[i][j]} ${customerPrizeCounts[i][j]}<button>-</button>`);
+        }
+    }
+    console.log(divIds);
+    console.log(namesAndCounts);
+   
+   
+    for(let i=0;i<divIds.length; i++){
+        let toStringLit = namesAndCounts.map(item => `<div id='${item}'>${item.join(' ')}</div>`);
+        return toStringLit.join(' ');
+        }
+
+}
+
+
+prizes.innerHTML = `<div id = 'prizeNames'>${displayPrizeNames()}</div>
+                        
+                    <div id = 'prizeCounts'>${displayPrizeCounts()}</div><br><br>`
+
+customer.innerHTML = `<div id = 'customerNames'>${displayCustomerNames()}</div><br>
+
+                        <div id = 'customerPrizeInfo'>${displayCustomerPrizeInfo()}</div>`
 
 
 

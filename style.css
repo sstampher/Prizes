@@ -1,0 +1,26 @@
+#prizeNames, #prizeCounts{
+ display:flex;
+ align-content: center;
+}
+
+#prizeNames div, #prizeCounts div{
+ margin-right: 90px;
+ margin-left: 90px; 
+}
+
+#customerNames, #customerPrizeInfo{
+ display:flex;
+ align-content: center;
+}
+
+#customerPrizeInfo div{
+ margin-right: 60px;
+ margin-left: 60px; 
+}
+
+#customerNames div{
+ margin-right: 90px;
+ margin-left: 90px; 
+}
+
+
