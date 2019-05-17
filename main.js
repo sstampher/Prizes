@@ -40,8 +40,9 @@ function displayPrizeCounts(){
     return toStringLit.join(' ');
 }
 
+let customerNames = Object.keys(data.customers);
+
 function displayCustomerNames(){
-    let customerNames = Object.keys(data.customers);
     let toStringLit = customerNames.map(item => `<div>${item}</div>`);
     return toStringLit.join(' ');
 }
@@ -60,28 +61,44 @@ function displayCustomerPrizeInfo(){
             divIds.push([]);
         for(let j=0;j<customerPrizeNames[i].length; j++){
             divIds[i].push(`${customerPrizeNames[i][j]}`)
-            namesAndCounts[i].push(`<button>+</button>${customerPrizeNames[i][j]} ${customerPrizeCounts[i][j]}<button>-</button>`);
-        }
-    }
-    console.log(divIds);
-    console.log(namesAndCounts);
-   
-   
-    for(let i=0;i<divIds.length; i++){
-        let toStringLit = namesAndCounts.map(item => `<div id='${item}'>${item.join(' ')}</div>`);
-        return toStringLit.join(' ');
+            namesAndCounts[i].push(`<div id ="${customerPrizeNames[i][j]}"><button id = "plus">+</button>${customerPrizeNames[i][j]} ${customerPrizeCounts[i][j]}<button id = "minus">-</button></div>`);
         }
 
+        console.log(namesAndCounts);
+    }
+        let toStringLit = namesAndCounts.map(item => `<div data-customer=${customerNames[0]} data-prize=>${item.join(' ')}</div>`)
+        return toStringLit.join(' ');
 }
 
+function add(e){
+    if(e.target.tagName === 'BUTTON' && e.target.innerHTML === '+'){
+    console.log(++data.customers.Moe.Foo);
+    renderCustomer(); 
+    }
+    if(e.target.tagName === 'BUTTON' && e.target.innerHTML === '-'){
+        console.log(--data.customers.Moe.Foo);
+        renderCustomer(); 
+        }
+}
 
+// Generate HTML with functions
 prizes.innerHTML = `<div id = 'prizeNames'>${displayPrizeNames()}</div>
                         
                     <div id = 'prizeCounts'>${displayPrizeCounts()}</div><br><br>`
 
+function renderCustomer(){
 customer.innerHTML = `<div id = 'customerNames'>${displayCustomerNames()}</div><br>
 
                         <div id = 'customerPrizeInfo'>${displayCustomerPrizeInfo()}</div>`
+}
+
+renderCustomer();
+
+// Listeners
+document.getElementById('customers').addEventListener("click", add);
+
+
+
 
 
 
