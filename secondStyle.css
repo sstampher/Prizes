@@ -1,0 +1,36 @@
+#prizeAndCount > div{
+    display: flex;
+    border: solid 1px;
+    align-content: space-around;
+    padding: 20px;
+}
+
+#prizes{
+    display: flex;
+    border: solid 1px;
+    align-content: space-around;
+    padding: 20px;
+}
+
+#customers{
+    display: flex;
+    border: solid 1px;
+    flex-direction: row;
+    align-content: space-around;
+    padding: 20px;
+}
+
+#name{
+    display: flex;
+    border: solid 1px;
+    flex-direction: column;
+    align-content: space-around;
+    padding: 20px;
+}
+
+#name > div{
+    display: flex;
+    border: solid 1px;
+    flex-direction: row;
+}
+
