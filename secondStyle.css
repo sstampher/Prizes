@@ -20,7 +20,7 @@
     padding: 20px;
 }
 
-#name{
+.names{
     display: flex;
     border: solid 1px;
     flex-direction: column;
@@ -28,7 +28,7 @@
     padding: 20px;
 }
 
-#name > div{
+.names > div{
     display: flex;
     border: solid 1px;
     flex-direction: row;
