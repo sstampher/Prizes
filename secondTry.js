@@ -3,23 +3,23 @@ const data = {
       Moe: {
         Foo: 2,
         Bar: 3,
-        Bazz: 0
+        Bazz: 3
       },
       Larry: {
-        Foo: 0,
-        Bar: 0,
-        Bazz: 0
+        Foo: 5,
+        Bar: 3,
+        Bazz: 3
       },
       Curly: {
-        Foo: 0,
+        Foo: 3,
         Bar: 0,
         Bazz: 0
       }
     },
     prizes: {
-      Foo: 1,
+      Foo: 3,
       Bar: 3,
-      Bazz: 5
+      Bazz: 3
     }
   };
 
@@ -39,7 +39,8 @@ const data = {
 
     let prizeNameAndCountDiv = prizeNameAndCountArr.map(item => `<div id="prizeAndCount">${item}</div>`);
     prizeDiv.innerHTML = `${prizeNameAndCountDiv.join(' ')}`
-    }
+
+  }
 
     buildPrizes()
 
@@ -59,18 +60,22 @@ const data = {
       arr3.push(Object.values(data.customers[key]));
     }
 
-    const prizesCountsButtonsArr = [];
+    console.log(arr3);
+
+    const buttonsArr = [];
 
     for(let i=0;i<arr2.length;i++){
-      prizesCountsButtonsArr.push([]);
+      buttonsArr.push([]);
         for(let j=0;j<arr2.length;j++){
-          prizesCountsButtonsArr[i].push(`<div id = "prizeInfo"><button id="${arr2[i][j]}">+</button><div>${arr2[i][j]}   ${arr3[i][j]}</div><button>-</button></div>`)
+          buttonsArr[i].push(`<div id = "prizeInfo"><button id="${arr2[i][j]}">+</button><button>-</button></div>`)
+          console.log(buttonsArr);
         }
     }
 
     for(let i=0;i<prizesCountsButtonsArr.length;i++){
       let completeDivs = names.map(item => `<div id="customerPrizesCounts"><div id = "${item}" class = "names">${item}${prizesCountsButtonsArr[i].join(' ')}</div></div>`)
       customerDiv.innerHTML = `${completeDivs.join(' ')}`
+      console.log(completeDivs);
     }
 }
 
@@ -82,9 +87,13 @@ buildCustomers();
     if(e.target.innerHTML === "+"){
       let selectedPrize = e.target.id;
       let selectingCustomer = e.target.parentElement.parentElement.id
-      buildPrizes();
+      // buildPrizes();
+      // buildCustomers();
+      console.log(data.customers[selectingCustomer][selectedPrize]);
+        --data.prizes[selectedPrize]
+        ++data.customers[selectingCustomer][selectedPrize];
+         buildPrizes();
       buildCustomers();
-      return --data.prizes[selectedPrize];
     }
   }
 

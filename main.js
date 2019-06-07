@@ -1,101 +1,119 @@
 const data = {
-    customers: {
-      Moe: {
-        Foo: 0,
-        Bar: 0,
-        Bazz: 0
-      },
-      Larry: {
-        Foo: 0,
-        Bar: 0,
-        Bazz: 0
-      },
-      Curly: {
-        Foo: 0,
-        Bar: 0,
-        Bazz: 0
-      }
-    },
-    prizes: {
-      Foo: 1,
+  customers: {
+    Moe: {
+      Foo: 2,
       Bar: 3,
-      Bazz: 5
+      Bazz: 0
+    },
+    Larry: {
+      Foo: 1,
+      Bar: 0,
+      Bazz: 0
+    },
+    Curly: {
+      Foo: 1,
+      Bar: 2,
+      Bazz: 3
     }
-  };
+  },
+  prizes: {
+    Foo: 1,
+    Bar: 3,
+    Bazz: 5
+  }
+};
 
-// Variables
-const prizes = document.getElementById('prizes');
-const customer = document.getElementById('customers');
+// Build HTML for "prizes" div from data object
 
-// Functions
-function displayPrizeNames(){
-    let prizeNames = Object.keys(data.prizes);
-    let toStringLit = prizeNames.map(item => `<div>${item}</div>`);
-    return toStringLit.join(' ');
+function buildPrizes(){
+
+  const prizeDiv = document.getElementById('prizes');
+  let prizeNameArr = Object.keys(data.prizes);
+  let prizeCountArr = Object.values(data.prizes);
+  let prizeNameAndCountArr = [];
+
+  for(let i=0; i<prizeNameArr.length; i++){
+    prizeNameAndCountArr.push(`<div id="prizeName">${prizeNameArr[i]}</div>
+                               <div id="prizeCount">${prizeCountArr[i]}</div>`)
+  }
+
+  let prizeNameAndCountDiv = prizeNameAndCountArr.map(item => `<div id="prizeAndCount">${item}</div>`);
+  prizeDiv.innerHTML = `${prizeNameAndCountDiv.join(' ')}`
+  }
+
+  buildPrizes()
+
+// build HTML for "customers" div from data object
+
+const customerDiv = document.getElementById('customers');
+
+function buildCustomers(){
+
+  let names= [];
+  let arr2= [];
+  let arr3=[];
+
+  for(let key in data.customers){
+    names.push(key);
+    arr2.push(Object.keys(data.customers[key]));
+    arr3.push(Object.values(data.customers[key]));
+  }
+
+  const prizesCountsButtonsArr = [];
+
+  // let namesDiv = names.map((item, idx) => `<div id=${idx}>${item}</div>`)
+  // customerDiv.innerHTML = `${namesDiv.join(' ')}`
+  
+  
+
+  for(let i=0;i<arr2.length;i++){
+    prizesCountsButtonsArr.push([]);
+      for(let j=0;j<arr2.length;j++){
+        console.log(arr2[i][j],arr3[i][j]);
+        prizesCountsButtonsArr[i].push(`<div id="customerPrizesCounts"><div id = "${names[i]}" class = "names"><div id = //"prizeInfo"><button id="${arr2[i][j]}">+</button><div>${arr2[i][j]}   ${arr3[i][j]}</div><button id=${arr2[i][j]}>-</button></div></div>`)
+        
+      }
+      
+
+      //customerDiv.innerHTML = `${prizesCountsButtonsArr.join(' ')}`
+  }
+
+  
+    let namesDiv = names.map((item, idx) => `<div>${item}<div>${prizesCountsButtonsArr[idx].join(' ')}</div>`)
+      customerDiv.innerHTML = `${namesDiv.join(' ')}`
+    
+
+  console.log(prizesCountsButtonsArr);
 }
 
-function displayPrizeCounts(){
-    let prizeCounts = Object.values(data.prizes);
-    let toStringLit = prizeCounts.map(item => `<div>${item}</div>`);
-    return toStringLit.join(' ');
+
+buildCustomers();
+
+// Button functionality
+
+function updatePrizeCount(e){
+
+  if(e.target.innerHTML === "+"){
+    let selectedPrize = e.target.id;
+    let selectingCustomer = e.target.parentElement.parentElement.id;
+    data.customers[selectingCustomer][selectedPrize]+=1;
+    data.prizes[selectedPrize]-=1;
+    buildPrizes();
+    buildCustomers();
+  }
+
+  else if(e.target.innerHTML === "-"){
+    let selectedPrize = e.target.id;
+    let selectingCustomer = e.target.parentElement.parentElement.id;
+    console.log(data.customers[selectingCustomer]);
+    data.customers[selectingCustomer][selectedPrize]-=1;
+    data.prizes[selectedPrize]+=1;
+    buildPrizes();
+    buildCustomers();
+  }
 }
 
-let customerNames = Object.keys(data.customers);
-
-function displayCustomerNames(){
-    let toStringLit = customerNames.map(item => `<div>${item}</div>`);
-    return toStringLit.join(' ');
-}
-
-function displayCustomerPrizeInfo(){
-    let customerPrizeInfo = Object.values(data.customers);
-    let customerPrizeNames = [];
-    let customerPrizeCounts = [];
-    let namesAndCounts = [];
-    let divIds = [];
-
-    customerPrizeInfo.forEach(item => customerPrizeNames.push(Object.keys(item)));
-    customerPrizeInfo.forEach(item => customerPrizeCounts.push(Object.values(item)));
-    for(let i=0;i<customerPrizeNames.length;i++){
-            namesAndCounts.push([]);
-            divIds.push([]);
-        for(let j=0;j<customerPrizeNames[i].length; j++){
-            divIds[i].push(`${customerPrizeNames[i][j]}`)
-            namesAndCounts[i].push(`<div id ="${customerPrizeNames[i][j]}"><button id = "plus">+</button>${customerPrizeNames[i][j]} ${customerPrizeCounts[i][j]}<button id = "minus">-</button></div>`);
-        }
-
-        console.log(namesAndCounts);
-    }
-        let toStringLit = namesAndCounts.map(item => `<div data-customer=${customerNames[0]} data-prize=>${item.join(' ')}</div>`)
-        return toStringLit.join(' ');
-}
-
-function add(e){
-    if(e.target.tagName === 'BUTTON' && e.target.innerHTML === '+'){
-    console.log(++data.customers.Moe.Foo);
-    renderCustomer(); 
-    }
-    if(e.target.tagName === 'BUTTON' && e.target.innerHTML === '-'){
-        console.log(--data.customers.Moe.Foo);
-        renderCustomer(); 
-        }
-}
-
-// Generate HTML with functions
-prizes.innerHTML = `<div id = 'prizeNames'>${displayPrizeNames()}</div>
-                        
-                    <div id = 'prizeCounts'>${displayPrizeCounts()}</div><br><br>`
-
-function renderCustomer(){
-customer.innerHTML = `<div id = 'customerNames'>${displayCustomerNames()}</div><br>
-
-                        <div id = 'customerPrizeInfo'>${displayCustomerPrizeInfo()}</div>`
-}
-
-renderCustomer();
-
-// Listeners
-document.getElementById('customers').addEventListener("click", add);
+customerDiv.addEventListener('click', updatePrizeCount);
 
 
 
